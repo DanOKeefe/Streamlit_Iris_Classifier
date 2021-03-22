@@ -1,3 +1,1 @@
-# Web application for classifying Iris flowers
-
-Built with streamlit
+### Web application for classifying Iris flowers
