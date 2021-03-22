@@ -99,7 +99,7 @@ fig = px.bar(df_pred, x='Species', y='Confidence',
 # Create two columns for the web app
 # Column 1 will be for the predictions
 # Column 2 will be for the PCA
-col1, col2 = st.beta_columns((1, 1.5))
+col1, col2 = st.beta_columns((1, 1.2))
 with col1:
     st.markdown('### Predictions')
     fig
