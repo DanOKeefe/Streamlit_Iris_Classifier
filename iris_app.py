@@ -93,8 +93,13 @@ X_scaled.columns = [
     'Petal Length Scaled',
     'Petal Width Scaled']
 # Define the prediction bar chart
-fig = px.bar(df_pred, x='Species', y='Confidence',
-             width=350, height=350)
+fig = px.bar(
+    df_pred, 
+    x='Species', 
+    y='Confidence',
+    width=350, 
+    height=350, 
+    color_discrete_sequence =['#00CC96', '#EF553B', '#636EFA'])
 
 # Create two columns for the web app
 # Column 1 will be for the predictions
