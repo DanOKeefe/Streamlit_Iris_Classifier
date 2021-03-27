@@ -99,6 +99,7 @@ fig = px.bar(
     y='Confidence',
     width=350, 
     height=350, 
+    color='Species',
     color_discrete_sequence =['#00CC96', '#EF553B', '#636EFA'])
 
 # Create two columns for the web app
