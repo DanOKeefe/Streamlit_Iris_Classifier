@@ -10,35 +10,35 @@ import plotly.express as px
 from tensorflow import keras
 
 # Read data
-df = pd.read_csv('https://gist.githubusercontent.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv')
+@st.cache
+def load_data():
+    return pd.read_csv('https://gist.githubusercontent.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv')
+df = load_data()
 
-# Clean data
-X = df.iloc[:, :4]
-y = np.zeros(shape=(X.shape[0], 3))
+# scaler will be used to scale user input.
+@st.cache
+def get_scaler():
+    # Clean data
+    X = df.iloc[:, :4]
+    y = np.zeros(shape=(X.shape[0], 3))
 
-for i, val in enumerate(df['variety']):
-    if val=='Virginica':
-        y[i,:] = np.array([1, 0, 0])
-    elif val=='Versicolor':
-        y[i,:] = np.array([0, 1, 0])
-    elif val=='Setosa':
-        y[i,:] = np.array([0, 0, 1])
+    for i, val in enumerate(df['variety']):
+        if val=='Virginica':
+            y[i,:] = np.array([1, 0, 0])
+        elif val=='Versicolor':
+            y[i,:] = np.array([0, 1, 0])
+        elif val=='Setosa':
+            y[i,:] = np.array([0, 0, 1])
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=100)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=100)
 
-# Scale data
-scaler = StandardScaler()
-scaler.fit(X_train)
-X_train = scaler.transform(X_train)
-X_test = scaler.transform(X_test)
+    # Scale data
+    scaler = StandardScaler()
+    scaler.fit(X_train)
+    return scaler
 
-# Run PCA
-pca = PCA(2)
-X_pca = pca.fit(X).transform(X)
-df_pca = pd.DataFrame(pca.transform(X))
-df_pca.columns = ['PC1', 'PC2']
-df_pca = pd.concat([df_pca, df['variety']], axis=1)
+scaler = get_scaler()
 
 # Load model
 model = keras.models.load_model('iris_model')
@@ -104,14 +104,36 @@ with col1:
     st.markdown('### Predictions')
     fig
 
+@st.cache
+def run_pca():
+    # Run PCA
+    pca = PCA(2)
+    X = df.iloc[:, :4]
+    X_pca = pca.fit(X).transform(X)
+    df_pca = pd.DataFrame(pca.transform(X))
+    df_pca.columns = ['PC1', 'PC2']
+    df_pca = pd.concat([df_pca, df['variety']], axis=1)
+    
+    return pca, df_pca
+
+pca, df_pca = run_pca()
 # Create the PCA chart
-pca_fig = px.scatter(df_pca, x='PC1', y='PC2', color='variety', hover_name='variety', width=500, height=350)
+pca_fig = px.scatter(
+    df_pca, 
+    x='PC1', 
+    y='PC2', 
+    color='variety', 
+    hover_name='variety', 
+    width=500, 
+    height=350)
+
+# Retrieve user input
 datapoint = np.array([[
-        sepal_length,
-        sepal_width,
-        petal_length,
-        petal_width
-    ]])
+            sepal_length,
+            sepal_width,
+            petal_length,
+            petal_width
+        ]])
 # Map the 4-D user input to 2-D using the PCA
 datapoint_pca = pca.transform(datapoint)
 # Add the user input to the PCA chart
