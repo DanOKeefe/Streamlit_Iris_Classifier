@@ -85,12 +85,7 @@ df_pred = pd.DataFrame({
     'Species': ['Virginica', 'Versicolor', 'Setosa'],
     'Confidence': y_pred.flatten()
 })
-X_scaled = pd.DataFrame(X_scaled)
-X_scaled.columns = [
-    'Sepal Length Scaled',
-    'Sepal Width Scaled',
-    'Petal Length Scaled',
-    'Petal Width Scaled']
+
 # Define the prediction bar chart
 fig = px.bar(
     df_pred, 
