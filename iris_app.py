@@ -53,27 +53,27 @@ Predict the species of an Iris flower using sepal and petal measurements.
 st.sidebar.header('Input Features')
 sepal_length = st.sidebar.slider(
     label='Sepal Length',
-    min_value=df['sepal.length'].min(),
-    max_value=df['sepal.length'].max(),
-    value=round(df['sepal.length'].mean(), 1),
+    min_value=float(df['sepal.length'].min()),
+    max_value=float(df['sepal.length'].max()),
+    value=float(round(df['sepal.length'].mean(), 1)),
     step=0.1)
 sepal_width = st.sidebar.slider(
     label='Sepal Width',
-    min_value=df['sepal.width'].min(),
-    max_value=df['sepal.width'].max(),
-    value=round(df['sepal.width'].mean(), 1),
+    min_value=float(df['sepal.width'].min()),
+    max_value=float(df['sepal.width'].max()),
+    value=float(round(df['sepal.width'].mean(), 1)),
     step=0.1)
 petal_length = st.sidebar.slider(
     label='Petal Length',
-    min_value=df['petal.length'].min(),
-    max_value=df['petal.length'].max(),
-    value=round(df['petal.length'].mean(), 1),
+    min_value=float(df['petal.length'].min()),
+    max_value=float(df['petal.length'].max()),
+    value=float(round(df['petal.length'].mean(), 1)),
     step=0.1)
 petal_width = st.sidebar.slider(
     label='Petal Width',
-    min_value=df['petal.width'].min(),
-    max_value=df['petal.width'].max(),
-    value=round(df['petal.width'].mean(), 1),
+    min_value=float(df['petal.width'].min()),
+    max_value=float(df['petal.width'].max()),
+    value=float(round(df['petal.width'].mean(), 1)),
     step=0.1)
 
 # Scale the user inputs
